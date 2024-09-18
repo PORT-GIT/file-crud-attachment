@@ -21,8 +21,8 @@ DEPARTMENT = [
 
 
 class Filelog(models.Model):
-    classification = models.CharField(unique=True, max_length=100)
-    name = models.CharField(max_length=200)
+    classification = models.CharField(unique=True, max_length=100, blank=False)
+    name_of_file = models.CharField(max_length=200, blank=False)
     department = models.CharField(choices=DEPARTMENT, default="CHOOSE DEPARTMENT", max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     basic_holder = models.CharField(default="Central Registry", max_length=50)
@@ -33,9 +33,14 @@ class Filelog(models.Model):
     
 
 class Filemovement(models.Model):
-    movement = models.ForeignKey(Filelog, on_delete=models.CASCADE)
-    current_holder = models.CharField(max_length=200, blank=False)
+    file = models.ForeignKey(Filelog, on_delete=models.CASCADE, related_name='movements')
+    #related name allows me to see all the movements related to one file
+    name_of_holder = models.CharField(max_length=200, blank=False)
+    location_of_holder = models.CharField(max_length=100, blank=False)
     date_received = models.DateTimeField(auto_now_add=True, blank=False)
+
+    def __str__(self):
+        return self.file.name_of_file + "moved to" + self.location_of_holder + "by" + self.name_of_holder
 
     
         
