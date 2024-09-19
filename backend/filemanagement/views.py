@@ -1,10 +1,17 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# from django.http import HttpResponse
+from rest_framework import viewsets
+#it is a view provide by DRF that automatically handles CRUD operations
+#foregoing the need to write separate code
+from .models import Filelog, Filemovement
+from .serializers import FilelogSerializer, FilemovementSerializer
 
 # Create your views here.
-def Logs(request):
 
-    return HttpResponse("Hello world")
+class FileLogViewSet(viewsets.ModelViewSet):
+    queryset = Filelog.objects.all()
+    serializer_class = FilelogSerializer
 
-def Movement(request):
-    return HttpResponse("I am moving")
+class FilemovementViewSet(viewsets.ModelViewSet):
+    queryset = Filemovement.objects.all()
+    serializer_class = FilemovementSerializer
