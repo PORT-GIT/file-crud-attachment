@@ -1,4 +1,4 @@
-# this serializer will convert django models data to JSON data and vice versa
+#this serializer will convert django models data to JSON data and vice versa
 
 from rest_framework import serializers
 from .models import Filelog, Filemovement
