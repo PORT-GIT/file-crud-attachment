@@ -30,6 +30,7 @@ class Filelog(models.Model):
     dispatched_at = models.DateField(blank=False)
     opened = models.BooleanField(blank=False)
     
+    
     def __str__ (self):
         return self.classification + "   " + self.name_of_file
     
@@ -43,6 +44,7 @@ class Filemovement(models.Model):
 
     def __str__(self):
         return self.file.name_of_file + "   moved to   " + self.location_of_holder + "   by   " + self.name_of_holder
+
 
     
         

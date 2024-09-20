@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'filemanagement',
     'rest_framework',
+    'docx',
 ]
 
 MIDDLEWARE = [
