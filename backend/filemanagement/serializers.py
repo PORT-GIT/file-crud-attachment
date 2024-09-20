@@ -15,4 +15,4 @@ class FilemovementSerializer(serializers.ModelSerializer):
         fields = ('file', 
                   'name_of_holder', 
                   'location_of_holder', 
-                  'date-received')
+                  'date_received')
