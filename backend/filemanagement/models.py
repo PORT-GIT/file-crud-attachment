@@ -28,7 +28,7 @@ class Filelog(models.Model):
     created_at = models.DateField(auto_now_add=True, blank=False)
     basic_holder = models.CharField(default="Central Registry", max_length=50)
     dispatched_at = models.DateField(blank=False)
-    opened = models.BooleanField(blank=False)
+    closed = models.BooleanField(blank=False)
     
     
     def __str__ (self):

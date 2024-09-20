@@ -7,7 +7,12 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import FilelogSerializer, FilemovementSerializer
+#these libraries are to analyze and extract info from documents(MS word and access)
 import docx
+import pyodbc
+
+from django.http import JsonResponse
+from .utils import extract_text_from_word  # assuming the function is in utils.py
 
 # THIS WILL ALLOW THE CREATION AND LISTING OF THE FILES
 class FilelogListView(generics.ListCreateAPIView):
@@ -61,19 +66,20 @@ class FileLogSearch(generics.ListAPIView):
 #For searching, you can build a search API in Django using query parameters    
 
 #The opened field in the Filelog model can be used to track whether a file has been opened.
-class FileOpenedView(APIView):
+class FileClosedView(APIView):
     def post(self, request, pk):
         try:
             filelog = Filelog.objects.get(pk=pk)
-            filelog.opened = True
+            filelog.closed = False
             filelog.save()
             return Response({"message": "File marked as opened."}, status=status.HTTP_200_OK)
         
         except Filelog.DoesNotExist:
-            return Response({"error": "File not found."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "File is marked as closed."}, status=status.HTTP_404_NOT_FOUND)
         
 
-#TO ANALYZE SOFT-COPY WORD DOCUMENTS TO EXTRACT INFORMATION
+#TO ANALYZE SOFT-COPY DOCUMENTS TO EXTRACT INFORMATION
+#these functions will extract details which can auto-fill fields in the FileLog model.
 def analyze_word_file(file_path):
     doc = docx.Document(file_path)
     data = {}
@@ -84,4 +90,29 @@ def analyze_word_file(file_path):
         if "Movement:" in paragraph.text:
             data['movement'] = paragraph.text.split(":")[1].strip()
     return data
+
+
+def extract_data_from_access(db_path):
+    conn_str = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + db_path + ';'
+    conn = pyodbc.connect(conn_str)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM YourTable")
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+    conn.close()
+
+
+def upload_document(request):
+    #This view handles file uploads. 
+    # It extracts text from a word file and attempts to determine its classification.
+
+    if request.method == 'POST' and request.FILES['file']:
+        file = request.FILES['file']
+        text_content = extract_text_from_word(file.temporary_file_path())  # Extract text
+        # Perform analysis or extraction of classification number from text_content
+        classification = extract_text_from_word(text_content)
+        return JsonResponse({'classification': classification})
+
+
 
