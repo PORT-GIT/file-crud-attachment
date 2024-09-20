@@ -78,41 +78,47 @@ class FileClosedView(APIView):
             return Response({"error": "File is marked as closed."}, status=status.HTTP_404_NOT_FOUND)
         
 
-#TO ANALYZE SOFT-COPY DOCUMENTS TO EXTRACT INFORMATION
-#these functions will extract details which can auto-fill fields in the FileLog model.
-def analyze_word_file(file_path):
-    doc = docx.Document(file_path)
-    data = {}
-    for paragraph in doc.paragraphs:
-        # Extract classification and movement data from the document
-        if "Classification:" in paragraph.text:
-            data['classification'] = paragraph.text.split(":")[1].strip()
-        if "Movement:" in paragraph.text:
-            data['movement'] = paragraph.text.split(":")[1].strip()
-    return data
+# #TO ANALYZE SOFT-COPY DOCUMENTS TO EXTRACT INFORMATION
+# #these functions will extract details which can auto-fill fields in the FileLog model.
+# def analyze_word_file(file_path):
+#     doc = docx.Document(file_path)
+#     data = {}
+#     for paragraph in doc.paragraphs:
+#         # Extract classification and movement data from the document
+#         if "Classification:" in paragraph.text:
+#             data['classification'] = paragraph.text.split(":")[1].strip()
+#         if "Movement:" in paragraph.text:
+#             data['movement'] = paragraph.text.split(":")[1].strip()
+#     return data
 
 
-def extract_data_from_access(db_path):
-    conn_str = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + db_path + ';'
-    conn = pyodbc.connect(conn_str)
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM YourTable")
-    rows = cursor.fetchall()
-    for row in rows:
-        print(row)
-    conn.close()
+# def extract_data_from_access(db_path):
+#     conn_str = r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=' + db_path + ';'
+#     conn = pyodbc.connect(conn_str)
+#     cursor = conn.cursor()
+#     cursor.execute("SELECT * FROM YourTable")
+#     rows = cursor.fetchall()
+#     for row in rows:
+#         print(row)
+#     conn.close()
 
 
-def upload_document(request):
-    #This view handles file uploads. 
-    # It extracts text from a word file and attempts to determine its classification.
+# def upload_document(request):
+#     #This view handles file uploads. 
+#     # It extracts text from a word file and attempts to determine its classification.
 
-    if request.method == 'POST' and request.FILES['file']:
-        file = request.FILES['file']
-        text_content = extract_text_from_word(file.temporary_file_path())  # Extract text
-        # Perform analysis or extraction of classification number from text_content
-        classification = extract_text_from_word(text_content)
-        return JsonResponse({'classification': classification})
+#     if request.method == 'POST' and request.FILES['file']:
+#         file = request.FILES['file']
+#         text_content = extract_text_from_word(file.temporary_file_path())  # Extract text
+#         # Perform analysis or extraction of classification number from text_content
+#         classification = extract_text_from_word(text_content)
+#         return JsonResponse({'classification': classification})
+#     else:
+#         return JsonResponse({'error': 'No file uploaded.'}, status=400)
+
+
+    
+
 
 
 
