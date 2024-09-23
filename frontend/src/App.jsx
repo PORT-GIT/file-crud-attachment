@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import './App.css'
-import Navbar from './Components/Navbar'
+import Sidebar from './Components/Sidebar'
+import Titlelogo from './Components/Titlelogo'
 
 function App() {
   
 
   return (
-    <div>
-      <Navbar/>
+    <div className='flex'>
+      <Sidebar />
+      <Titlelogo />
     </div>
   )
 }
