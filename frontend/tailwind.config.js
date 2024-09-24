@@ -8,5 +8,12 @@ export default {
     extend: {},
   },
   plugins: [],
+  variants: {
+    extend: {
+      display: ["focus-group"]
+    }
+  }
+  // the focus group here will be used to display the dropdown menu at the 
+  // navbar.jsx file
 }
 
