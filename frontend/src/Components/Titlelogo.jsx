@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from './Navbar'
 
 const Titlelogo = () => {
   return (
-    <div>Titlelogo</div>
+    <div className='w-full'>
+      <Navbar />
+    </div>
   )
 }
 

@@ -5,10 +5,10 @@ import { FaFileExport } from "react-icons/fa6"
 
 const Sidebar = () => {
   return (
-    <div className='w-64 bg-blue-500 fixed h-full px-2 py-6'>
+    <div className='w-64 bg-blue-500 fixed h-full px-2 py-2'>
 
         <div className='my-2 mb-4'>
-            <h1 className='font-bold text-white text-2xl'>Registry File Tracker</h1>
+            <h1 className='font-bold text-white text-xl'>Registry File Tracker</h1>
 
         </div>
 
